@@ -38,10 +38,10 @@ public class Plugin {
 	    instance = ctor.newInstance(arguments);
 	}
 	
-	public void invoke(String m, Class<?>[] classes, Object[] arguments) throws Exception {
+	public Object invoke(String m, Class<?>[] classes, Object[] arguments) throws Exception {
 		Method method = clazz.getMethod(m, classes);
 		
-		method.invoke(instance, arguments);
+		return method.invoke(instance, arguments);
 	}
 
 	public String getMainClass() {
