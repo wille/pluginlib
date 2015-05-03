@@ -27,11 +27,15 @@ public class Plugin {
 	}
 	
 	public void load() throws Exception {
+		load(null, null);
+	}
+	
+	public void load(Class<?>[] classes, Object[] arguments) throws Exception {
 		clazz = Class.forName(mainClass, true, new PluginClassLoader(new JarInputStream(new FileInputStream(file))));
 				
-		Constructor<?> ctor = clazz.getDeclaredConstructor();
+		Constructor<?> ctor = clazz.getDeclaredConstructor(classes);
 	    ctor.setAccessible(true);
-	    instance = ctor.newInstance();
+	    instance = ctor.newInstance(arguments);
 	}
 	
 	public void invoke(String m, Class<?>[] classes, Object[] arguments) throws Exception {
