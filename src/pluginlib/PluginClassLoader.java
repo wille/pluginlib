@@ -18,6 +18,10 @@ public class PluginClassLoader extends ClassLoader {
 	private Map<String, byte[]> classes = new HashMap<String, byte[]>();
 	
 
+	public PluginClassLoader(JarInputStream jis) {
+		this.loadResources(jis);
+	}
+	
 	public PluginClassLoader(ClassLoader parent, JarInputStream jis) {
 		super(parent);
 		this.loadResources(jis);
