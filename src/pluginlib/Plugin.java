@@ -20,7 +20,7 @@ public class Plugin {
 		try {
 			this.file = file;
 			this.jarfile = new JarFile(file);
-			this.setMainClass(JarUtils.getMainClassFromInfo(jarfile));
+			this.mainClass = JarUtils.getMainClassFromInfo(jarfile);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
