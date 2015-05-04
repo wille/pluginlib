@@ -1,6 +1,6 @@
 # pluginlib
 
-Simple Java plugin for basic plugin functionality
+Simple Java library for basic plugin functionality
 
 ## Usage
 
