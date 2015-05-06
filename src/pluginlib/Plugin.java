@@ -47,6 +47,24 @@ public class Plugin {
 	    instance = ctor.newInstance(arguments);
 	}
 	
+	/**
+	 * Invokes method without arguments
+	 * @param m
+	 * @return
+	 * @throws Exception
+	 */
+	public Object invoke(String m) throws Exception {
+		return invoke(m, null, null);
+	}
+	
+	/**
+	 * Invokes method with arguments
+	 * @param m
+	 * @param classes argument classes
+	 * @param arguments argument objects
+	 * @return
+	 * @throws Exception
+	 */
 	public Object invoke(String m, Class<?>[] classes, Object[] arguments) throws Exception {
 		Method method = clazz.getMethod(m, classes);
 		
