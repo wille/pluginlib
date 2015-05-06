@@ -31,6 +31,7 @@ public class Plugin {
 	 */
 	public Plugin(File file, String mainClass) throws Exception {
 		this.file = file;
+		this.mainClass = mainClass;
 
 		Classpath.addToClassPath(file);
 	}
@@ -40,10 +41,10 @@ public class Plugin {
 	}
 	
 	public void load(Class<?>[] classes, Object[] arguments) throws Exception {
-		clazz = Class.forName(mainClass, true, getClass().getClassLoader());
-				
-		Constructor<?> ctor = clazz.getDeclaredConstructor(classes);
-	    ctor.setAccessible(true);
+		clazz = Class.forName(mainClass, false, getClass().getClassLoader());			
+	    
+	    Constructor<?> ctor = clazz.getDeclaredConstructor(classes);
+		ctor.setAccessible(true);
 	    instance = ctor.newInstance(arguments);
 	}
 	
