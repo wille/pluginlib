@@ -1,34 +1,38 @@
 package pluginlib;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.jar.JarFile;
-import java.util.jar.JarInputStream;
 
 public class Plugin {
 	
 	private File file;
-	private JarFile jarfile;
 	private String mainClass;
 	private Class<?> clazz;
 	private Object instance;
 	
-	public Plugin(File file) throws MainClassNotFoundException, IOException {
-		try {
-			this.file = file;
-			this.jarfile = new JarFile(file);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		try {
-			this.mainClass = JarUtils.getMainClassFromInfo(jarfile);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+	/**
+	 * Tries to load main class from plugin.txt if found
+	 * @param file
+	 * @throws MainClassNotFoundException
+	 * @throws IOException
+	 */
+	public Plugin(File file) throws Exception, MainClassNotFoundException, IOException {
+		this(file, JarUtils.getMainClassFromInfo(new JarFile(file)));		
+	}
+	
+	/**
+	 * Adds file to classpath
+	 * @param file
+	 * @param mainClass
+	 * @throws Exception
+	 */
+	public Plugin(File file, String mainClass) throws Exception {
+		this.file = file;
+
+		Classpath.addToClassPath(file);
 	}
 	
 	public void load() throws Exception {
@@ -36,7 +40,7 @@ public class Plugin {
 	}
 	
 	public void load(Class<?>[] classes, Object[] arguments) throws Exception {
-		clazz = Class.forName(mainClass, true, new PluginClassLoader(new JarInputStream(new FileInputStream(file))));
+		clazz = Class.forName(mainClass, true, getClass().getClassLoader());
 				
 		Constructor<?> ctor = clazz.getDeclaredConstructor(classes);
 	    ctor.setAccessible(true);
