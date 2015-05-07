@@ -6,7 +6,7 @@ import pluginlib.Plugin;
 public class Loader {
 	
 	public static void main(String[] args) throws Exception {
-		Plugin plugin = new Plugin(new File("example.jar"));
+		Plugin<ExamplePlugin> plugin = new Plugin<ExamplePlugin>(new File("example.jar"));
 		
 		plugin.setMainClass("pluginlib.example.ExamplePlugin");
 		

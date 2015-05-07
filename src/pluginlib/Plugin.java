@@ -8,12 +8,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.jar.JarFile;
 
-public class Plugin {
+public class Plugin<T> {
 	
 	private File file;
 	private String mainClass;
-	private Class<?> clazz;
-	private Object instance;
+	private Class<T> clazz;
+	private T instance;
 	
 	/**
 	 * Tries to load main class from plugin.txt if found
@@ -42,12 +42,13 @@ public class Plugin {
 		load(null, null);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void load(Class<?>[] classes, Object[] arguments) throws Exception {
-		clazz = Class.forName(mainClass, false, new PluginClassLoader(getClass().getClassLoader()));			
+		clazz = (Class<T>) Class.forName(mainClass, false, new PluginClassLoader(getClass().getClassLoader()));			
 	    
 	    Constructor<?> ctor = clazz.getDeclaredConstructor(classes);
 		ctor.setAccessible(true);
-	    instance = ctor.newInstance(arguments);
+	    instance = (T) ctor.newInstance(arguments);
 	}
 	
 	/**
@@ -84,6 +85,10 @@ public class Plugin {
 
 	public File getFile() {
 		return file;
+	}
+	
+	public T getInstance() {
+		return instance;
 	}
 	
 	private class PluginClassLoader extends ClassLoader {
