@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.jar.JarFile;
 
 public class Plugin {
@@ -41,7 +43,7 @@ public class Plugin {
 	}
 	
 	public void load(Class<?>[] classes, Object[] arguments) throws Exception {
-		clazz = Class.forName(mainClass, false, getClass().getClassLoader());			
+		clazz = Class.forName(mainClass, false, new PluginClassLoader(getClass().getClassLoader()));			
 	    
 	    Constructor<?> ctor = clazz.getDeclaredConstructor(classes);
 		ctor.setAccessible(true);
@@ -71,7 +73,7 @@ public class Plugin {
 		
 		return method.invoke(instance, arguments);
 	}
-
+	
 	public String getMainClass() {
 		return mainClass;
 	}
@@ -82,6 +84,24 @@ public class Plugin {
 
 	public File getFile() {
 		return file;
+	}
+	
+	private class PluginClassLoader extends ClassLoader {
+
+		public PluginClassLoader(ClassLoader parent) {
+			super(parent);
+		}
+		
+		@Override
+		public URL getResource(String s) {
+			try {
+				return new URL("jar:file:/" + file.getAbsolutePath() + "!" + s);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
 	}
 
 }
