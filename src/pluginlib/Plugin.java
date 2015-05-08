@@ -43,12 +43,14 @@ public class Plugin<T> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void load(Class<?>[] classes, Object[] arguments) throws Exception {
+	public T load(Class<?>[] classes, Object[] arguments) throws Exception {
 		clazz = (Class<T>) Class.forName(mainClass, false, new PluginClassLoader(getClass().getClassLoader()));			
 	    
 	    Constructor<?> ctor = clazz.getDeclaredConstructor(classes);
 		ctor.setAccessible(true);
 	    instance = (T) ctor.newInstance(arguments);
+	    
+	    return instance;
 	}
 	
 	/**
