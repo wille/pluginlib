@@ -8,7 +8,7 @@ import java.net.URLClassLoader;
 public class Classpath {
 	
 	
-	public static void addToClassPath(File file) throws Exception {
+	public static void addToClasspath(File file) throws Exception {
 		Method method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
 		method.setAccessible(true);
 		method.invoke((URLClassLoader) ClassLoader.getSystemClassLoader(), file.toURI().toURL());
