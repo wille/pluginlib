@@ -39,7 +39,6 @@ public class PluginLoader<T> {
 		if (files != null) {
 			for (File f : files) {
 				try {
-					Classpath.addToClasspath(f);
 					load(f);
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -53,7 +52,9 @@ public class PluginLoader<T> {
 	 * @param file
 	 * @throws Exception
 	 */
-	public void load(File file) throws Exception {		
+	public void load(File file) throws Exception {	
+		Classpath.addToClasspath(file);
+
 		Plugin<T> plugin = new Plugin<T>(file);
 		
 		plugin.load();
