@@ -34,8 +34,6 @@ public class Plugin<T> {
 	public Plugin(File file, String mainClass) throws Exception {
 		this.file = file;
 		this.mainClass = mainClass;
-
-		Classpath.addToClassPath(file);
 	}
 	
 	public void load() throws Exception {

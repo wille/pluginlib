@@ -38,7 +38,12 @@ public class PluginLoader<T> {
 		
 		if (files != null) {
 			for (File f : files) {
-				load(f);
+				try {
+					Classpath.addToClasspath(f);
+					load(f);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
 	}
