@@ -29,6 +29,8 @@ public class PluginLoader<T> {
 	 * Load all plugins from detected directory
 	 * 
 	 * If plugins are loaded, will reload all plugins
+	 * 
+	 * Only loads files ending with .jar
 	 * @throws Exception
 	 */
 	public void loadPlugins() throws Exception {
@@ -38,10 +40,12 @@ public class PluginLoader<T> {
 		
 		if (files != null) {
 			for (File f : files) {
-				try {
-					load(f);
-				} catch (Exception ex) {
-					ex.printStackTrace();
+				if (f.isFile() && f.getName().toLowerCase().endsWith(".jar")) {
+					try {
+						load(f);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
 		}
