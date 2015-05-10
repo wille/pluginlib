@@ -26,6 +26,10 @@ public class EventHandler<T> {
 	}
 	
 	public List<T> getEvents(Object type) {
+		if (!map.containsKey(type)) {
+			map.put(type, new ArrayList<T>());
+		}
+		
 		return map.get(type);
 	}
 }
