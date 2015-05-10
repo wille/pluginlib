@@ -5,33 +5,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EventHandler {
+public class EventHandler<T> {
+		
+	private final Map<Object, List<T>> map = new HashMap<Object, List<T>>();
 	
-	private static EventHandler instance;
-	
-	private final Map<Object, List<AbstractEvent>> map = new HashMap<Object, List<AbstractEvent>>();
-	
-	public static EventHandler getInstance() {
-		return instance;
-	}
-	
-	public void register(Object type, AbstractEvent event) {
+	public void register(Object type, T event) {
 		if (!map.containsKey(type)) {
-			map.put(type, new ArrayList<AbstractEvent>());
+			map.put(type, new ArrayList<T>());
 		}
 		
-		List<AbstractEvent> list = map.get(type);
+		List<T> list = map.get(type);
 		
 		list.add(event);
 	}
 	
-	public void unregister(Object type, AbstractEvent event) {
+	public void unregister(Object type, T event) {
 		if (map.containsKey(type)) {
 			map.get(type).remove(event);
 		}
 	}
 	
-	public List<AbstractEvent> getEvents(Object type) {
+	public List<T> getEvents(Object type) {
 		return map.get(type);
 	}
 }
