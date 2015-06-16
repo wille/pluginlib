@@ -26,11 +26,10 @@ public class PluginLoader<T> {
 	}
 	
 	/**
-	 * Load all plugins from detected directory
-	 * 
-	 * If plugins are loaded, will reload all plugins
-	 * 
+	 * Load all plugins from detected directory.
+	 * If plugins are loaded, will reload all plugins.
 	 * Only loads files ending with .jar
+	 * If no main class if found, it assumes the JAR is a library and adds it to classpath
 	 * @throws Exception
 	 */
 	public void loadPlugins() throws Exception {
@@ -43,6 +42,8 @@ public class PluginLoader<T> {
 				if (f.isFile() && f.getName().toLowerCase().endsWith(".jar")) {
 					try {
 						load(f);
+					} catch (MainClassNotFoundException ex) {
+						System.err.println("Failed to load " + file.getName() + ", assuming library");
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
